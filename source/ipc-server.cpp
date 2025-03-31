@@ -31,7 +31,7 @@ void ipc::server::watcher()
 	os::error ec;
 	std::cout << "server - start watcher" << std::endl;
 	struct pending_accept {
-		server *parent;
+		server *parent = nullptr;
 		std::shared_ptr<os::async_op> op;
 #ifdef WIN32
 		std::shared_ptr<ipc::socket> socket;

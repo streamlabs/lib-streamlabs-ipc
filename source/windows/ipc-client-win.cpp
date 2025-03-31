@@ -142,7 +142,7 @@ std::vector<ipc::value> ipc::client_win::call_synchronous_helper(const std::stri
 	};
 
 	int64_t cbid = 0;
-	bool success = call(cname, fname, std::move(args), cb, &cd, cbid);
+	bool success = call(cname, fname, args, cb, &cd, cbid);
 	if (!success) {
 		return {};
 	}
@@ -157,15 +157,16 @@ std::vector<ipc::value> ipc::client_win::call_synchronous_helper(const std::stri
 		const auto total_time = (std::chrono::high_resolution_clock::now() - cd.start);
 		if (!freeze_flagged && total_time > freeze_timeout) {
 			freeze_flagged = true;
-			m_freeze_cb(m_app_state_path, cname + "::" + fname, std::chrono::duration_cast<std::chrono::milliseconds>(total_time).count(), -1);
+			int64_t ms = std::chrono::duration_cast<std::chrono::milliseconds>(total_time).count();
+			m_freeze_cb(m_app_state_path, cname + "::" + fname, static_cast<int>(ms), -1);
 		}
 	}
 
 	if (long_call_flagged) {
-		const int total_time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - cd.start).count();
-		const int obs_time = std::chrono::duration_cast<std::chrono::milliseconds>(cd.obs_call_duration).count();
+		const int64_t total_time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - cd.start).count();
+		const int64_t obs_time = std::chrono::duration_cast<std::chrono::milliseconds>(cd.obs_call_duration).count();
 		if (m_freeze_cb)
-			m_freeze_cb(m_app_state_path, cname + "::" + fname, total_time, obs_time);
+			m_freeze_cb(m_app_state_path, cname + "::" + fname, static_cast<int>(total_time), static_cast<int>(obs_time));
 	}
 
 	if (!cd.called) {

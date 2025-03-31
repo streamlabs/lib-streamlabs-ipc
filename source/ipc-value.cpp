@@ -22,11 +22,18 @@
 ipc::value::value()
 {
 	this->type = type::Null;
+	this->value_union.fp32 = 0;
 }
 
-ipc::value::value(const std::vector<char> &p_value) : type(type::Binary), value_bin(p_value) {}
+ipc::value::value(const std::vector<char> &p_value) : type(type::Binary), value_bin(p_value)
+{
+	this->value_union.fp32 = 0;
+}
 
-ipc::value::value(const std::string &p_value) : type(type::String), value_str(p_value) {}
+ipc::value::value(const std::string &p_value) : type(type::String), value_str(p_value)
+{
+	this->value_union.fp32 = 0;
+}
 
 ipc::value::value(uint64_t p_value)
 {
