@@ -31,7 +31,7 @@ ipc::server_instance_osx::~server_instance_osx()
 	m_stopWorkers = true;
 
 	// Unblock current sync read by send dummy data
-	std::vector<char> buffer;
+	std::vector<char> buffer(1 + sizeof(ipc_size_t));
 	buffer.push_back('1');
 	ipc::make_sendable(buffer);
 	m_socket->write(buffer.data(), buffer.size(), REQUEST);
