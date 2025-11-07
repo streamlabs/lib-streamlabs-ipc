@@ -101,6 +101,8 @@ size_t ipc::value::size()
 		size += sizeof(uint32_t);
 		size += this->value_bin.size();
 		break;
+	case type::Null:
+		break;
 	}
 	return size;
 }
@@ -120,6 +122,7 @@ size_t ipc::value::serialize(std::vector<char> &buf, size_t offset)
 		reinterpret_cast<int32_t &>(buf[noffset]) = this->value_union.i32;
 		noffset += sizeof(int32_t);
 		break;
+	case type::Null:
 	case type::UInt32:
 		reinterpret_cast<uint32_t &>(buf[noffset]) = this->value_union.ui32;
 		noffset += sizeof(uint32_t);
@@ -176,6 +179,7 @@ size_t ipc::value::deserialize(const std::vector<char> &buf, size_t offset)
 	size_t noffset = offset + sizeof(uint32_t);
 	uint32_t length;
 	switch (this->type) {
+	case type::Null:
 	case type::Int32:
 	case type::UInt32:
 	case type::Float:
