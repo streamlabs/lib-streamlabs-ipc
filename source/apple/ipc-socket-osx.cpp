@@ -62,7 +62,7 @@ void os::apple::socket_osx::clean_file_descriptors()
 uint32_t os::apple::socket_osx::read(char *buffer, size_t buffer_length, bool is_blocking, SocketType t)
 {
 	os::error err = os::error::Error;
-	size_t ret = 0;
+	long ret = 0;
 	int sizeChunks = 8 * 1024; // 8KB
 	int offset = 0;
 	int file_descriptor = -1;
@@ -117,7 +117,7 @@ end:
 uint32_t os::apple::socket_osx::write(const char *buffer, size_t buffer_length, SocketType t)
 {
 	os::error err = os::error::Error;
-	size_t ret = 0;
+	long ret = 0;
 	int sizeChunks = 8 * 1024; // 8KB
 	std::string typePipe = t == REQUEST ? "client" : "server";
 
