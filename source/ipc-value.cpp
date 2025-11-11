@@ -78,6 +78,7 @@ size_t ipc::value::size()
 	case type::Int32:
 		size += sizeof(int32_t);
 		break;
+	case type::Null:
 	case type::UInt32:
 		size += sizeof(uint32_t);
 		break;
@@ -100,8 +101,6 @@ size_t ipc::value::size()
 	case type::Binary:
 		size += sizeof(uint32_t);
 		size += this->value_bin.size();
-		break;
-	case type::Null:
 		break;
 	}
 	return size;
