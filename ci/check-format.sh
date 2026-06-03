@@ -26,9 +26,9 @@ elif [[ ${OS} = "Darwin" ]] ; then
 fi
 
 # Discover clang-format
-if type clang-format-18 2> /dev/null ; then
+if command -v clang-format-18 > /dev/null 2>&1 ; then
     CLANG_FORMAT=clang-format-18
-elif type clang-format 2> /dev/null ; then
+elif command -v clang-format > /dev/null 2>&1 ; then
     # Clang format found, but need to check version
     CLANG_FORMAT=clang-format
     V=$(clang-format --version)
