@@ -41,7 +41,7 @@ inline void validate_open_param(std::string name)
 	}
 }
 
-inline std::string make_windows_compatible(std::string &name)
+inline std::string make_windows_compatible(const std::string &name)
 {
 	std::string out = name;
 	for (char &v : out) {
